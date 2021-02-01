@@ -3,13 +3,16 @@ package dk.emad.ikeahome.service;
 import nl.stijngroenen.tradfri.device.Device;
 import nl.stijngroenen.tradfri.device.Gateway;
 import nl.stijngroenen.tradfri.device.Light;
+import nl.stijngroenen.tradfri.device.Remote;
 import nl.stijngroenen.tradfri.util.Credentials;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeviceService {
@@ -65,8 +68,7 @@ public class DeviceService {
 
     private List<Device> getLightsContainingName(Device[] devices, String name) {
         List<Device> lights = new ArrayList<>();
-
-        for(Device device : devices) {
+        for (Device device : devices) {
             if (device.isLight()) {
                 if (device.getName().contains(name)) {
                     lights.add(device);
@@ -77,4 +79,14 @@ public class DeviceService {
     }
 
 
+    public Map<String, Integer> getBatteryStatus() {
+        Map<String, Integer> status = new HashMap<>();
+        for (Device device : gateway.getDevices()) {
+            if (device.isRemote()) {
+                Remote remote = device.toRemote();
+                status.put(remote.getName(), remote.getDeviceInfo().getBatteryLevel());
+            }
+        }
+        return status;
+    }
 }
