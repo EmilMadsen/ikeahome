@@ -4,10 +4,8 @@ import nl.stijngroenen.tradfri.device.Device;
 import nl.stijngroenen.tradfri.device.Gateway;
 import nl.stijngroenen.tradfri.device.Light;
 import nl.stijngroenen.tradfri.device.Remote;
-import nl.stijngroenen.tradfri.util.Credentials;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,7 +75,6 @@ public class DeviceService {
         }
         return lights;
     }
-
 
     public Map<String, Integer> getBatteryStatus() {
         Map<String, Integer> status = new HashMap<>();
