@@ -4,7 +4,6 @@ import nl.stijngroenen.tradfri.device.Device;
 import nl.stijngroenen.tradfri.device.Gateway;
 import nl.stijngroenen.tradfri.device.Light;
 import nl.stijngroenen.tradfri.util.Credentials;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -15,17 +14,10 @@ import java.util.List;
 @Service
 public class DeviceService {
 
-    @Value("${secretip:none}") private String ip;
-    @Value("${secretcode:none}") private String code;
-    private Gateway gateway;
+    private final Gateway gateway;
 
-    @PostConstruct
-    public void setup() {
-        System.out.println("Ip is: " + ip);
-        System.out.println("Code is: " + code);
-        gateway = new Gateway(ip);
-        Credentials credentials = gateway.connect(code);
-        gateway.connect(credentials);
+    public DeviceService(Gateway gateway) {
+        this.gateway = gateway;
     }
 
     public Device getById(int id) {
